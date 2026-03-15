@@ -1,6 +1,6 @@
 'use client';
 
-import { formatVenueDeals } from '@/lib/utils/venueUtils';
+import { formatVenueDeals, getBestDiscountValue } from '@/lib/utils/venueUtils';
 import { Venue } from '@/types/venues';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,18 +15,13 @@ type VenueListProps = {
 const VenueList: React.FC<VenueListProps> = ({ venues = [] }) => {
   const [query, setQuery] = useState('');
 
-  const getBestDiscount = (deals: Venue['deals']) => {
-    if (!deals || deals.length === 0) return 0;
-    return Math.max(...deals.map(d => parseInt(d.discount, 10) || 0));
-  };
-
   const filteredVenues = [...venues]
     .filter(
       venue =>
         venue.name.toLowerCase().includes(query.toLowerCase()) ||
         venue.cuisines.some(cuisine => cuisine.toLowerCase().includes(query.toLowerCase()))
     )
-    .sort((a, b) => getBestDiscount(b.deals) - getBestDiscount(a.deals));
+    .sort((a, b) => getBestDiscountValue(b.deals) - getBestDiscountValue(a.deals));
 
   return (
     <>

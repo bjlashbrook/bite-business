@@ -1,4 +1,5 @@
 import { getVenueByTitle } from '@/api/venues';
+import { sortDealsByDiscount } from '@/lib/utils/venueUtils';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { FaBolt, FaBookOpen, FaLocationDot, FaMapLocationDot, FaPhone, FaRegClock, FaRegHeart } from 'react-icons/fa6';
@@ -28,6 +29,8 @@ export default async function Venue({ params }: { params: Promise<{ title: strin
   if (!venue) {
     notFound();
   }
+
+  const sortedDeals = sortDealsByDiscount(venue.deals);
 
   return (
     <div className="container mx-auto p-4 pt-0">
@@ -74,7 +77,7 @@ export default async function Venue({ params }: { params: Promise<{ title: strin
       </div>
 
       <ul className="space-y-2 mb-8">
-        {venue.deals.map(deal => (
+        {sortedDeals.map(deal => (
           <li key={deal.objectId} className="flex justify-between">
             <div>
               <h2 className="flex items-center text-(--ec-red) text-2xl">

@@ -5,17 +5,34 @@ export interface FormattedDeals {
   timeStipulation?: string;
 }
 
+/**
+ * Safely parses the discount string into a number.
+ */
+export const getDiscountValue = (deal: Venue['deals'][number]): number => {
+  return parseInt(deal.discount, 10) || 0;
+};
+
+/**
+ * Returns the highest discount value from a list of deals.
+ */
+export const getBestDiscountValue = (deals: Venue['deals']): number => {
+  if (!deals || deals.length === 0) return 0;
+  return Math.max(...deals.map(getDiscountValue));
+};
+
+/**
+ * Sorts deals by discount percentage in descending order.
+ */
+export const sortDealsByDiscount = (deals: Venue['deals']): Venue['deals'] => {
+  return [...deals].sort((a, b) => getDiscountValue(b) - getDiscountValue(a));
+};
+
 export function formatVenueDeals(deals: Venue['deals']): FormattedDeals | null {
   if (!deals || deals.length === 0) return null;
 
+  const sortedDeals = sortDealsByDiscount(deals);
+  const bestDeal = sortedDeals[0];
   const isMultiple = deals.length > 1;
-
-  // Find the deal with the highest discount
-  const bestDeal = [...deals].sort((a, b) => {
-    const discountA = parseInt(a.discount, 10) || 0;
-    const discountB = parseInt(b.discount, 10) || 0;
-    return discountB - discountA;
-  })[0];
 
   const summaryParts: string[] = [];
 
