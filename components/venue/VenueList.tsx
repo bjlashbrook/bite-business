@@ -9,7 +9,7 @@ type VenueListProps = {
 
 const VenueList: React.FC<VenueListProps> = ({ venues = [] }) => {
   return (
-    <div className="container mx-auto p-4">
+    <>
       {venues.length === 0 ? (
         <p className="text-center text-gray-500">No venues found.</p>
       ) : (
@@ -45,7 +45,7 @@ const VenueList: React.FC<VenueListProps> = ({ venues = [] }) => {
           })}
         </ul>
       )}
-    </div>
+    </>
   );
 };
 

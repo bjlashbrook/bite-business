@@ -4,5 +4,9 @@ import VenueList from '@/components/venue/VenueList';
 export default async function Home() {
   const venues = await getVenues();
 
-  return <VenueList venues={venues} />;
+  return (
+    <div className="container mx-auto p-4">
+      <VenueList venues={venues} />
+    </div>
+  );
 }

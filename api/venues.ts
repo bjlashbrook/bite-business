@@ -13,3 +13,8 @@ export async function getVenues(): Promise<Venue[]> {
   return data.restaurants || [];
 }
 
+export async function getVenueByTitle(title: string): Promise<Venue | null> {
+  const venues = await getVenues();
+  const slugify = (str: string) => str.toLowerCase().replace(/\s+/g, '-');
+  return venues.find(v => slugify(v.name) === title) || null;
+}
