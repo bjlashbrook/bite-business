@@ -4,7 +4,10 @@ const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
 export async function getVenues(): Promise<Venue[]> {
   try {
-    await delay(2000);
+    // Only delay if we are not in a testing environment
+    if (!process.env.VITEST) {
+      await delay(2000);
+    }
 
     const res = await fetch('https://eccdn.com.au/misc/challengedata.json', {
       next: { revalidate: 60 }

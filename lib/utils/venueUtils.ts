@@ -27,6 +27,23 @@ export const sortDealsByDiscount = (deals: Venue['deals']): Venue['deals'] => {
   return [...deals].sort((a, b) => getDiscountValue(b) - getDiscountValue(a));
 };
 
+/**
+ * Filters venues by name or cuisine and sorts them by their best available discount.
+ */
+export const filterAndSortVenues = (venues: Venue[], query: string): Venue[] => {
+  const lowerQuery = query.toLowerCase().trim();
+  
+  return [...venues]
+    .filter(venue => {
+      if (!lowerQuery) return true;
+      return (
+        venue.name.toLowerCase().includes(lowerQuery) ||
+        venue.cuisines.some(cuisine => cuisine.toLowerCase().includes(lowerQuery))
+      );
+    })
+    .sort((a, b) => getBestDiscountValue(b.deals) - getBestDiscountValue(a.deals));
+};
+
 export function formatVenueDeals(deals: Venue['deals']): FormattedDeals | null {
   if (!deals || deals.length === 0) return null;
 
