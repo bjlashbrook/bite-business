@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface VenueImageProps {
   src: string | undefined | null;
@@ -13,9 +13,9 @@ interface VenueImageProps {
 
 export function VenueImage({ src, alt, className, width = 600, height = 400 }: VenueImageProps) {
   const fallbackSrc = 'https://placehold.co/600x400?text=No+Image+Available';
-  
+
   // Initialize with fallback if src is fundamentally invalid
-  const initialSrc = (src && typeof src === 'string' && src.trim() !== '') ? src : fallbackSrc;
+  const initialSrc = src && typeof src === 'string' && src.trim() !== '' ? src : fallbackSrc;
   const [imgSrc, setImgSrc] = useState(initialSrc);
 
   // Sync state if src prop changes
