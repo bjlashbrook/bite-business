@@ -1,11 +1,12 @@
 import { getVenueByTitle } from '@/api/venues';
-import { sortDealsByDiscount } from '@/lib/utils/venueUtils';
-import { VenueImage } from '@/components/venue/VenueImage';
 import { notFound } from 'next/navigation';
-import { FaBolt, FaBookOpen, FaLocationDot, FaMapLocationDot, FaPhone, FaRegClock, FaRegHeart } from 'react-icons/fa6';
+import { VenueHeader } from '@/components/venue/VenueHeader';
+import { VenueInfo } from '@/components/venue/VenueInfo';
+import { VenueDeals } from '@/components/venue/VenueDeals';
+import { VenueDescription } from '@/components/venue/VenueDescription';
 
 // Set title and description metadata for SEO
-export async function generateMetadata({ params }: { params: { title: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ title: string }> }) {
   const { title } = await params;
   const venue = await getVenueByTitle(title);
 
@@ -30,107 +31,18 @@ export default async function Venue({ params }: { params: Promise<{ title: strin
     notFound();
   }
 
-  const sortedDeals = sortDealsByDiscount(venue.deals);
-
   return (
     <>
-      <div className="relative w-full h-80 mb-6 overflow-hidden shadow-md">
-        <VenueImage src={venue.imageLink} alt={venue.name} className="w-full h-full object-cover" />
-      </div>
-
-      <div className="p-4 pt-0 border-b pb-4 mb-6 border-gray-200">
-        <ul className="container mx-auto flex justify-around items-center gap-4 text-gray-600">
-          <li className="flex flex-col items-center gap-1">
-            <FaBookOpen size={20} />
-            <span className="text-xs">Menu</span>
-          </li>
-          <li className="flex flex-col items-center gap-1">
-            <FaPhone size={20} />
-            <span className="text-xs">Call</span>
-          </li>
-          <li className="flex flex-col items-center gap-1">
-            <FaMapLocationDot size={20} />
-            <span className="text-xs">Location</span>
-          </li>
-          <li className="flex flex-col items-center gap-1">
-            <FaRegHeart size={20} />
-            <span className="text-xs">Favourite</span>
-          </li>
-        </ul>
-      </div>
+      <VenueHeader imageLink={venue.imageLink} name={venue.name} />
 
       <div className="container mx-auto p-4 pt-0">
         <div className="md:flex md:gap-8 md:mt-12">
-          <div className="md:w-1/2 xl:w-2/3">
-            <div className="text-center md:text-left">
-              <h1 className="text-3xl font-bold leading-tight text-black mb-2">{venue.name}</h1>
+          <VenueInfo venue={venue} />
 
-              <p className="text-sm text-gray-500 mb-4">{venue.cuisines.join(' • ')}</p>
-            </div>
-
-            <div className="flex flex-col gap-3 text-gray-700 mb-6 border-t border-gray-200 pt-6 md:border-t-0">
-              <div className="flex items-center gap-2">
-                <FaRegClock size={16} className="" />
-                <span className="text-sm font-medium">
-                  Hours: {venue.open} - {venue.close}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <FaLocationDot size={16} className="" />
-                <span className="text-sm">
-                  {venue.address1}, {venue.suburb}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <ul className="space-y-2 mb-8 md:w-1/2 xl:w-1/3">
-            {sortedDeals.map(deal => (
-              <li
-                key={deal.objectId}
-                className="flex gap-4 justify-between border-t border-gray-200 pt-4 md:first:border-t-0"
-              >
-                <div>
-                  <h2 className="flex items-center text-(--ec-red) text-2xl">
-                    {deal.lightning && <FaBolt className="text-yellow-500 me-1" size={20} />}
-                    <span className="font-bold">
-                      {deal.discount}% off {deal.dineIn && ' • Dine In'}
-                    </span>
-                  </h2>
-                  {(deal.open || deal.start) && (deal.close || deal.end) && (
-                    <p className="text-sm text-gray-500">
-                      Between {deal.open || deal.start} and {deal.close || deal.end}
-                    </p>
-                  )}
-                  <p className="text-sm text-gray-400">{deal.qtyLeft} Deals left</p>
-                </div>
-                <button className="text-(--ec-red) border-2 border-(--ec-red) px-4 py-2 rounded-full font-bold hover:bg-(--ec-red) hover:text-white transition-colors my-auto">
-                  Redeem
-                </button>
-              </li>
-            ))}
-          </ul>
+          <VenueDeals deals={venue.deals} />
         </div>
 
-        <div className="xl:max-w-2xl">
-          <p className="text-gray-700 mb-4">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus repellat ducimus doloribus, porro
-            beatae molestiae odio consequatur aspernatur vero hic neque ab voluptatibus harum culpa, atque praesentium
-            impedit repudiandae dolor.
-          </p>
-
-          <p className="text-gray-700 mb-4">
-            Odit rem eaque aliquid sunt fuga autem quaerat id cumque veritatis, eligendi, aspernatur magnam a
-            repellendus. Perferendis amet deleniti ex numquam illum dolore eaque quidem vel. Possimus reiciendis ab
-            fugiat dolorum veritatis cupiditate, facilis maxime voluptate culpa magni exercitationem, sunt blanditiis?
-          </p>
-
-          <p className="text-gray-700">
-            Magni itaque, debitis reiciendis quod iste, perspiciatis consequatur a mollitia laboriosam, necessitatibus
-            labore minus voluptatum rem? Saepe exercitationem fugiat accusantium non libero voluptatibus nulla porro
-            dignissimos magni nisi repudiandae, autem ipsa neque minus unde.
-          </p>
-        </div>
+        <VenueDescription />
       </div>
     </>
   );
