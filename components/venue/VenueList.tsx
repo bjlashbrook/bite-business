@@ -2,9 +2,9 @@
 
 import { formatVenueDeals, getBestDiscountValue } from '@/lib/utils/venueUtils';
 import { Venue } from '@/types/venues';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { VenueImage } from './VenueImage';
 
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 
@@ -30,7 +30,7 @@ const VenueList: React.FC<VenueListProps> = ({ venues = [] }) => {
           <FaMagnifyingGlass size={20} className="absolute mt-3 ml-3 text-gray-500" />
           <input
             type="search"
-            placeholder="e.g. chinese, pizze"
+            placeholder="e.g. chinese, pizza"
             value={query}
             onChange={e => setQuery(e.target.value)}
             className="w-full py-2 pr-4 pl-10 focus:outline-none focus:ring-2"
@@ -53,7 +53,7 @@ const VenueList: React.FC<VenueListProps> = ({ venues = [] }) => {
                   className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow relative"
                 >
                   <Link href={`/venues/${encodeURIComponent(name.toLowerCase().replace(/\s+/g, '-'))}`}>
-                    <Image src={imageLink} alt={name} className="w-full h-48 object-cover" width={640} height={480} />
+                    <VenueImage src={imageLink} alt={name} className="w-full h-48 object-cover" />
                     {dealData && (
                       <div className="absolute top-4 left-4 bg-(--ec-red) text-white font-bold p-1 px-2 flex flex-col items-start">
                         <p className="text-sm">{dealData.summary}</p>

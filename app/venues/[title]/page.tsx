@@ -1,6 +1,6 @@
 import { getVenueByTitle } from '@/api/venues';
 import { sortDealsByDiscount } from '@/lib/utils/venueUtils';
-import Image from 'next/image';
+import { VenueImage } from '@/components/venue/VenueImage';
 import { notFound } from 'next/navigation';
 import { FaBolt, FaBookOpen, FaLocationDot, FaMapLocationDot, FaPhone, FaRegClock, FaRegHeart } from 'react-icons/fa6';
 
@@ -35,7 +35,7 @@ export default async function Venue({ params }: { params: Promise<{ title: strin
   return (
     <>
       <div className="relative w-full h-80 mb-6 overflow-hidden shadow-md">
-        <Image src={venue.imageLink} alt={venue.name} fill className="object-cover" priority />
+        <VenueImage src={venue.imageLink} alt={venue.name} className="w-full h-full object-cover" />
       </div>
 
       <div className="p-4 pt-0 border-b pb-4 mb-6 border-gray-200">
