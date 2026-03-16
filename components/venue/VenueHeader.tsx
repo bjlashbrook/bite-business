@@ -10,7 +10,13 @@ export const VenueHeader: React.FC<VenueHeaderProps> = ({ imageLink, name }) => 
   return (
     <>
       <div className="relative w-full h-80 mb-6 overflow-hidden shadow-md">
-        <VenueImage src={imageLink} alt={name} className="w-full h-full object-cover" />
+        <VenueImage 
+          src={imageLink} 
+          alt={name} 
+          className="w-full h-full object-cover" 
+          width={1200}
+          height={800}
+        />
       </div>
 
       <div className="p-4 pt-0 border-b pb-4 mb-6 border-gray-200">

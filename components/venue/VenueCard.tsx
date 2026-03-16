@@ -15,7 +15,7 @@ export const VenueCard: React.FC<VenueCardProps> = ({ venue }) => {
   return (
     <li className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow relative list-none">
       <Link href={`/venues/${slug}`}>
-        <VenueImage src={imageLink} alt={name} className="w-full h-48 object-cover" />
+        <VenueImage src={imageLink} alt={name} className="w-full h-48 object-cover" width={600} height={400} />
 
         {dealData && (
           <div className="absolute top-4 left-4 bg-(--ec-red) text-white font-bold p-1 px-2 flex flex-col items-start shadow-sm">

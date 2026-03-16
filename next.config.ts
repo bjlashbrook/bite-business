@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'demo.eccdn.com.au'
+      },
+      {
+        protocol: 'https',
+        hostname: 'placehold.co'
       }
     ]
   }

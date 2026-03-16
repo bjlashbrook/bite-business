@@ -36,7 +36,6 @@ export function VenueImage({ src, alt, className, width = 600, height = 400 }: V
       height={height}
       // Handles cases where URL is valid but image doesn't exist (404, etc)
       onError={() => setImgSrc(fallbackSrc)}
-      // Optional: unoptimized if dealing with external domains not in next.config
       unoptimized={imgSrc.startsWith('https://placehold.co')}
     />
   );
