@@ -1,6 +1,7 @@
 import { formatVenueDeals } from '@/lib/utils/venueUtils';
 import { Venue } from '@/types/venues';
 import Link from 'next/link';
+import { FaRegHeart } from 'react-icons/fa6';
 import { VenueImage } from './VenueImage';
 
 interface VenueCardProps {
@@ -27,8 +28,16 @@ export const VenueCard: React.FC<VenueCardProps> = ({ venue }) => {
         )}
 
         <div className="p-4 flex flex-col h-32">
-          <h2 className="text-xl font-bold mb-1 text-black">{name}</h2>
-          <p className="text-gray-600 text-sm mb-2">{`${address1}, ${suburb}`}</p>
+          <div className="flex justify-between items-start">
+            <div>
+              <h2 className="text-xl font-bold mb-1 text-black">{name}</h2>
+              <p className="text-gray-600 text-sm mb-2">{`${address1}, ${suburb}`}</p>
+            </div>
+
+            <button>
+              <FaRegHeart size={20} className="ml-auto text-gray-400 hover:text-(--ec-red) transition-colors" />
+            </button>
+          </div>
           <p className="text-gray-500 text-xs mt-auto italic">{cuisines.join(' • ')}</p>
         </div>
       </Link>
